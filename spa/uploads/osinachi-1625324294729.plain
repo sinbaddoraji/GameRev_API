@@ -1,0 +1,20 @@
+Game
+    Game Thumbnail
+    Publisher
+    year of release 
+    Description
+    Genre
+    Platforms
+    Username (Name of person adding game)
+    Date (Date and time of when user added game)
+    Time
+    Description (Markdown formatting or pure text)
+    Rating
+    Reviews (Username and time review)
+
+Things Api should Do 
+
+Filter games based on year range
+Filter games based on Name
+Filter games based on rating 
+Dissplay all games
