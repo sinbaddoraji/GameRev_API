@@ -21,6 +21,7 @@ async function login() {
 	const data = Object.fromEntries(formData.entries())
 
 	const token = 'Basic ' + btoa(`${data.user}:${data.pass}`)
+	print(`token = ${token}`)
 	const response = await secureGet('/accounts', token)
 
 	//console.log(response)

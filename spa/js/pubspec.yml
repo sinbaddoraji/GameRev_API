@@ -1,0 +1,12 @@
+
+# pubspec.yaml
+
+name: APIs
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+dependencies: 
+  http: ^0.13.3
+  image: ^3.0.2
+  mime_type: ^1.0.0
+ 

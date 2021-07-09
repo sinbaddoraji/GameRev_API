@@ -4,7 +4,7 @@
 import { Router } from 'https://deno.land/x/oak@v6.5.1/mod.ts'
 
 import { extractCredentials, saveFile } from './modules/util.js'
-import { login, register } from './modules/accounts.js'
+import { login, register, getUser } from './modules/accounts.js'
 
 import { getAllGames, addGame, getGame, updateGame, deleteGame } from './modules/games.js'
 import { getAllGameReviews, addGameReview, getGameReview, updateGameReview, deleteGameReview } from './modules/gameReviews.js'
@@ -20,13 +20,15 @@ router.get('/', async context => {
 router.get('/accounts', async context => {
 	console.log('GET /accounts')
 	const token = context.request.headers.get('Authorization')
-	console.log(`auth: ${token}`)
+	console.log(`auth token: ${token}`)
 	try {
 		const credentials = extractCredentials(token)
-		//console.log(credentials)
+		console.log(credentials)
 		const username = await login(credentials)
 		console.log(`username: ${username}`)
-		context.response.body = JSON.stringify({ status: 'success', data: { username } }, null, 2)
+
+		let data =  await getUser(username)
+		context.response.body = JSON.stringify({ status: 'success', data }, null, 2)
 	} catch(err) {
 		context.response.status = 401
 		context.response.body = JSON.stringify({ status: 'unauthorised', msg: err.msg })
@@ -37,6 +39,8 @@ router.post('/accounts', async context => {
 	console.log('POST /accounts')
 	const body  = await context.request.body()
 	const data = await body.value
+
+
 	console.log(data)
 	await register(data)
 	context.response.status = 201
@@ -71,6 +75,7 @@ router.get('/api/v1/games', async context =>  {
 	{
 		context.response.status = 201
 		context.response.body = await getAllGames();
+		console.log(await getAllGames());
 	} catch (error) {
 		context.response.status = 401
 		context.response.body = JSON.stringify({ status: 'Error accessing list of games', msg: err.msg })

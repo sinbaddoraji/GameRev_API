@@ -24,9 +24,17 @@ export async function login(credentials) {
 	return user
 }
 
+export async function getUser(username) {
+
+	let sql = `SELECT id, user, email, first_name, last_name, country FROM ` + "`accounts`" + `WHERE user = "${username}"`;
+	let records = await db.query(sql)
+	console.log(records)
+	return records
+}
+
 export async function register(credentials) {
 	credentials.pass = await hash(credentials.pass, salt)
-	const sql = `INSERT INTO accounts(user, pass) VALUES("${credentials.user}", "${credentials.pass}")`
+	const sql = `INSERT INTO accounts(user, pass, email, first_name, last_name, country) VALUES("${credentials.user}", "${credentials.pass}", "${credentials.email}", "${credentials.first_name}", "${credentials.last_name}", "${credentials.country}" )`
 	console.log(sql)
 	const records = await db.query(sql)
 	return true
